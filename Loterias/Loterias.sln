@@ -5,6 +5,12 @@ VisualStudioVersion = 16.0.31727.386
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Loterias.Robot", "Loterias.Robot\Loterias.Robot.csproj", "{31185D6E-D1B7-452D-9204-59BF049C7FA8}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Application", "Application", "{5D57F25F-ED88-4EBF-ADA1-E3FCB467F585}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Loterias.Application", "Loterias.Application\Loterias.Application.csproj", "{B5DA4C68-3D98-4057-AC63-DDF164045C87}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Robot", "Robot", "{78BAF604-4D29-4E3A-9EE9-74AE23FF8A52}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,9 +21,17 @@ Global
 		{31185D6E-D1B7-452D-9204-59BF049C7FA8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{31185D6E-D1B7-452D-9204-59BF049C7FA8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{31185D6E-D1B7-452D-9204-59BF049C7FA8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B5DA4C68-3D98-4057-AC63-DDF164045C87}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B5DA4C68-3D98-4057-AC63-DDF164045C87}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B5DA4C68-3D98-4057-AC63-DDF164045C87}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B5DA4C68-3D98-4057-AC63-DDF164045C87}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{31185D6E-D1B7-452D-9204-59BF049C7FA8} = {78BAF604-4D29-4E3A-9EE9-74AE23FF8A52}
+		{B5DA4C68-3D98-4057-AC63-DDF164045C87} = {5D57F25F-ED88-4EBF-ADA1-E3FCB467F585}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {C4EEA931-D397-492C-919D-A297269574B5}
