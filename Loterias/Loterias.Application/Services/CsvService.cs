@@ -9,6 +9,7 @@ namespace Loterias.Application.Services
     {
         public IEnumerable<Game> Read()
         {
+            //TODO: Ajustar para caminho relativo
             var data = File.ReadLines($@"C:\Projetos\Pessoal\Loterias\loterias-robot\Loterias\Loterias.Application\FilesCsv\megasena.csv");
             var games = new List<Game>();
 
