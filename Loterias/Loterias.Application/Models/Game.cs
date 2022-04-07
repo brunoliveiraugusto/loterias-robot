@@ -1,4 +1,6 @@
-﻿using System;
+﻿using HtmlAgilityPack;
+using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace Loterias.Application.Models
@@ -18,6 +20,18 @@ namespace Loterias.Application.Models
             {
                 DrawDate = new DateTime(drawDate[2], drawDate[1], drawDate[0]),
                 GameDrawn = gameDrawn
+            };
+        }
+
+        public static implicit operator Game(List<HtmlNode> gameDrawn)
+        {
+            DateTime.TryParse(gameDrawn.ElementAt(0).InnerText, out DateTime result);
+            DateTime drawDate = result;
+
+            return new Game
+            {
+                DrawDate = drawDate,
+                GameDrawn = string.Join(";", gameDrawn.Skip(1))
             };
         }
     }
