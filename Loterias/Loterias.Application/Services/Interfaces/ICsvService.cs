@@ -1,10 +1,12 @@
 ﻿using Loterias.Application.Models;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Loterias.Application.Services.Interfaces
 {
     public interface ICsvService
     {
-        IEnumerable<Game> Read();
+        Task<IEnumerable<Game>> Read();
+        Task Update(IEnumerable<Game> games);
     }
 }
