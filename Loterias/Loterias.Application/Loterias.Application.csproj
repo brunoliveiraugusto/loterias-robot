@@ -5,7 +5,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="FilesCsv\" />
+    <PackageReference Include="CsvHelper" Version="27.2.1" />
+    <PackageReference Include="Hangfire.Console" Version="1.4.2" />
+    <PackageReference Include="HtmlAgilityPack" Version="1.11.42" />
+    <PackageReference Include="Microsoft.Extensions.Options" Version="5.0.0" />
+    <PackageReference Include="Serilog.AspNetCore" Version="5.0.0" />
   </ItemGroup>
 
 </Project>
