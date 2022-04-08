@@ -10,9 +10,10 @@ namespace Loterias.Application.Services
     {
         public void ProcessRecommendedGame(IEnumerable<Game> games)
         {
-            var predictions = AddSubsequentNumbersToEachNumberDrawn(games.ToList());
+            var listGames = games.ToList();
+            var predictions = AddSubsequentNumbersToEachNumberDrawn(listGames);
             var updatedPredictions = GroupLaterNumbersForEachGameNumber(predictions);
-            var lastGame = GetLastGame(games.ToList());
+            var lastGame = GetLastGame(listGames);
             var predictionsNumbers = GetLaterNumbersPredictionBasedOnLastGameNumbers(updatedPredictions, lastGame);
             PrintRecommendedGame(predictionsNumbers);
 
