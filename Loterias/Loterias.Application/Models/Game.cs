@@ -30,8 +30,8 @@ namespace Loterias.Application.Models
 
             return new Game
             {
-                DrawDate = drawDate,
-                GameDrawn = string.Join(";", gameDrawn.Skip(1))
+                GameDrawn = string.Join(";", gameDrawn.Skip(1).Select(g => g.InnerText.TrimStart('0'))),
+                DrawDate = drawDate
             };
         }
     }
