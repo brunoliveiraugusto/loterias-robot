@@ -34,12 +34,13 @@ namespace Loterias.Robot
             services.Configure<GameRequest>(
                 Configuration.GetSection(nameof(GameRequest)));
 
+            services.Configure<TablePosition>(
+                Configuration.GetSection(nameof(TablePosition)));
+
             services.AddHangfire(op =>
             {
                 op.UseMemoryStorage();
             });
-
-            GlobalConfiguration.Configuration.UseSerilogLogProvider();
 
             services.AddHangfireServer();
         }
