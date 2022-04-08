@@ -14,13 +14,15 @@ namespace Loterias.Application.Services
     public class ScrapingService : IScrapingService
     {
         private readonly string _url;
+        private readonly TablePosition _tablePosition;
         private readonly IHttpService _httpService;
         private Dictionary<string, string> _requestParams = new();
 
-        public ScrapingService(IOptions<GameRequest> options, IHttpService httpService)
+        public ScrapingService(IOptions<GameRequest> optionsGameRequest, IOptions<TablePosition> optionsTablePosition, IHttpService httpService)
         {
-            _url = options?.Value.Uri;
-            _requestParams.Add(options?.Value.KeyParam, options?.Value.ValueParam);
+            _url = optionsGameRequest?.Value.Uri;
+            _tablePosition = optionsTablePosition?.Value;
+            _requestParams.Add(optionsGameRequest?.Value.KeyParam, optionsGameRequest?.Value.ValueParam);
             _httpService = httpService;
         }
 
@@ -42,7 +44,7 @@ namespace Loterias.Application.Services
                             tbody.SelectNodes("//tr")
                                 .ToArray()
                                     .Select(tr =>
-                                        tr.SelectNodes("//td").Skip(1).Take(7))).FirstOrDefault();
+                                        tr.SelectNodes("//td").Skip(_tablePosition.Skip).Take(_tablePosition.Take))).FirstOrDefault();
 
             List<Game> extractedGames = new();
 

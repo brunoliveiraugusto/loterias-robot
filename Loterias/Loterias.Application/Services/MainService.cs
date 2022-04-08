@@ -1,4 +1,5 @@
 ﻿using Loterias.Application.Services.Interfaces;
+using System;
 using System.Threading.Tasks;
 
 namespace Loterias.Application.Services
@@ -18,9 +19,16 @@ namespace Loterias.Application.Services
 
         public async Task Execute()
         {
-            await _csvService.Update(await _scrapingService.Read());
-            var games = await _csvService.Read();
-            _gameService.ProcessRecommendedGame(games);
+            try
+            {
+                await _csvService.Update(await _scrapingService.Read());
+                var games = await _csvService.Read();
+                _gameService.ProcessRecommendedGame(games);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
         }
     }
 }
