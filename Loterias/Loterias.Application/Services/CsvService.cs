@@ -2,6 +2,7 @@
 using CsvHelper.Configuration;
 using Loterias.Application.Models;
 using Loterias.Application.Services.Interfaces;
+using Loterias.Application.Utils.Csv.Models;
 using Loterias.Application.Utils.Exceptions;
 using System;
 using System.Collections.Generic;
@@ -39,7 +40,7 @@ namespace Loterias.Application.Services
             }
         }
 
-        public async Task Update(IEnumerable<Game> games)
+        public async Task Update(IEnumerable<Csv> games)
         {
             try
             {
@@ -47,7 +48,7 @@ namespace Loterias.Application.Services
                 {
                     var data = await File.ReadAllLinesAsync(PATH_CSV);
                     DateTime? lastDateDrawn = ExtractDateLastDraw(data);
-                    IEnumerable<Game> gamesToBeInserted = lastDateDrawn != null ? games.Where(game => game.DrawDate > lastDateDrawn) : games;
+                    IEnumerable<Csv> gamesToBeInserted = lastDateDrawn != null ? games.Where(game => game.DrawDate > lastDateDrawn) : games;
                     await UpdateExistsFile(gamesToBeInserted);
                     return;
                 }
@@ -60,7 +61,7 @@ namespace Loterias.Application.Services
             }
         }
 
-        private async Task Insert(IEnumerable<Game> games)
+        private async Task Insert(IEnumerable<Csv> games)
         {
             try
             {
@@ -74,7 +75,7 @@ namespace Loterias.Application.Services
             }
         }
 
-        private async Task UpdateExistsFile(IEnumerable<Game> games)
+        private async Task UpdateExistsFile(IEnumerable<Csv> games)
         {
             try
             {

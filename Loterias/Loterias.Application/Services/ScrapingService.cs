@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Linq;
 using Loterias.Application.Models;
+using Loterias.Application.Utils.Csv.Models;
 
 namespace Loterias.Application.Services
 {
@@ -26,7 +27,7 @@ namespace Loterias.Application.Services
             _httpService = httpService;
         }
 
-        public async Task<IEnumerable<Game>> Read()
+        public async Task<IEnumerable<Csv>> Read()
         {
             var data = await _httpService.Get<MegaSenaResponse>(_url, _requestParams);
             HtmlDocument doc = new();
@@ -35,7 +36,7 @@ namespace Loterias.Application.Services
 
         }
 
-        private IEnumerable<Game> ExtractGames(HtmlDocument document)
+        private IEnumerable<Csv> ExtractGames(HtmlDocument document)
         {
             var games = document.DocumentNode
                 .SelectNodes("//tbody")
@@ -46,11 +47,11 @@ namespace Loterias.Application.Services
                                     .Select(tr =>
                                         tr.SelectNodes("//td").Skip(_tablePosition.Skip).Take(_tablePosition.Take))).FirstOrDefault();
 
-            List<Game> extractedGames = new();
+            List<Csv> extractedGames = new();
 
             Parallel.ForEach(games, game =>
             {
-                Game extractedGame = game.ToList();
+                Csv extractedGame = game.ToList();
                 extractedGames.Add(extractedGame);
             });
 
