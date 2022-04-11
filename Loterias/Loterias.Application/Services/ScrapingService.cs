@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Linq;
 using Loterias.Application.Models;
 using Loterias.Application.Utils.Csv.Models;
+using System;
 
 namespace Loterias.Application.Services
 {
@@ -38,24 +39,23 @@ namespace Loterias.Application.Services
 
         private IEnumerable<Csv> ExtractGames(HtmlDocument document)
         {
+            //TODO: Ajustar nome da classe tornando o scraping genérico
             var games = document.DocumentNode
-                .SelectNodes("//tbody")
-                    .ToArray()
-                        .Select(tbody =>
-                            tbody.SelectNodes("//tr")
-                                .ToArray()
-                                    .Select(tr =>
-                                        tr.SelectNodes("//td").Skip(_tablePosition.Skip).Take(_tablePosition.Take))).FirstOrDefault();
+                .SelectNodes("//table[@class='tabela-resultado megasena']/tbody/tr")
+                .Select(tr => tr.SelectNodes(".//td").Skip(_tablePosition.Skip).Take(_tablePosition.Take).ToList());
+
+            var first = games.FirstOrDefault();
+            var last = games.LastOrDefault();
 
             List<Csv> extractedGames = new();
 
-            Parallel.ForEach(games, game =>
+            foreach (var game in games)
             {
                 Csv extractedGame = game.ToList();
                 extractedGames.Add(extractedGame);
-            });
+            }
 
-            return extractedGames.OrderBy(extractedGame => extractedGame.DrawDate);
+            return extractedGames.OrderBy(extractedGame => DateTime.Parse(extractedGame.DrawDate));
         }
     }
 }

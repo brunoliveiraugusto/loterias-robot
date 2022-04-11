@@ -48,7 +48,7 @@ namespace Loterias.Application.Services
                 {
                     var data = await File.ReadAllLinesAsync(PATH_CSV);
                     DateTime? lastDateDrawn = ExtractDateLastDraw(data);
-                    IEnumerable<Csv> gamesToBeInserted = lastDateDrawn != null ? games.Where(game => game.DrawDate > lastDateDrawn) : games;
+                    IEnumerable<Csv> gamesToBeInserted = lastDateDrawn != null ? games.Where(game => DateTime.Parse(game.DrawDate) > lastDateDrawn) : games;
                     await UpdateExistsFile(gamesToBeInserted);
                     return;
                 }

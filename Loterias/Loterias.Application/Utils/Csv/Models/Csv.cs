@@ -9,7 +9,7 @@ namespace Loterias.Application.Utils.Csv.Models
     public class Csv
     {
         [Index(0)]
-        public DateTime DrawDate { get; set; }
+        public string DrawDate { get; set; }
         [Index(1)]
         public string NumberOne { get; set; }
         [Index(2)]
@@ -25,12 +25,13 @@ namespace Loterias.Application.Utils.Csv.Models
 
         public static implicit operator Csv(List<HtmlNode> gameDrawn)
         {
+            //TODO: INCLUIR FOR PARA PREENCHIMENTO DOS CAMPOS COM BASE NA VARIÁVEL INDICATIVA DA QUANTIDADE DE NÚMEROS DE JOGOS DO APPSETTINGS
             DateTime.TryParse(gameDrawn.ElementAt(0).InnerText, out DateTime result);
             DateTime drawDate = result;
 
             return new Csv
             {
-                DrawDate = drawDate,
+                DrawDate = drawDate.Date.ToShortDateString(),
                 NumberOne = gameDrawn[1].InnerText.TrimStart('0'),
                 NumberTwo = gameDrawn[2].InnerText.TrimStart('0'),
                 NumberThree = gameDrawn[3].InnerText.TrimStart('0'),
