@@ -8,14 +8,14 @@ namespace Loterias.Application.Services
 {
     public class GameService : IGameService
     {
-        public void ProcessRecommendedGame(IEnumerable<Game> games)
+        public RecommendedGame ProcessRecommendedGame(IEnumerable<Game> games)
         {
             var listGames = games.ToList();
             var predictions = AddSubsequentNumbersToEachNumberDrawn(listGames);
             var updatedPredictions = GroupLaterNumbersForEachGameNumber(predictions);
             var lastGame = GetLastGame(listGames);
             var predictionsNumbers = GetLaterNumbersPredictionBasedOnLastGameNumbers(updatedPredictions, lastGame);
-            PrintRecommendedGame(predictionsNumbers);
+            return GetRecommendedGame(predictionsNumbers);
 
         }
 
@@ -63,7 +63,7 @@ namespace Loterias.Application.Services
 
         private List<PossibleGame> GetLaterNumbersPredictionBasedOnLastGameNumbers(List<PossibleGame> games, string[] lastGame)
         {
-            return games.Where(x => lastGame.Contains(x.Number))
+            var teste = games.Where(x => lastGame.Contains(x.Number))
                         .Select(x => new PossibleGame
                         {
                             LaterNumbers = x.LaterNumbers,
@@ -71,6 +71,8 @@ namespace Loterias.Application.Services
                             Number = x.Number
                         })
                         .ToList();
+
+            return teste;
         }
 
         private string[] GetLastGame(List<Game> games)
@@ -84,23 +86,36 @@ namespace Loterias.Application.Services
                                     dateLastDraw.AddDays(3) : dateLastDraw.AddDays(4);
         }
 
-        private void PrintRecommendedGame(List<PossibleGame> possibleGames)
+        private RecommendedGame GetRecommendedGame(List<PossibleGame> possibleGames)
         {
+            //TODO: Refatoração do método separando responsabilidades.
             var recommendedGameNumbers = new List<string>();
 
             foreach (var possibleGame in possibleGames)
             {
+                var possibleNumber = possibleGame.PossibleNumbers.FirstOrDefault();
+
                 Console.WriteLine($"Número anterior: {possibleGame.Number} - " +
-                    $"Número que mais saiu posteriormente: {possibleGame.PossibleNumbers.FirstOrDefault()} - " +
+                    $"Número que mais saiu posteriormente: {possibleNumber} - " +
                     $"Quantidade de vezes: {possibleGame.PossibleNumbers.Count()}");
 
-                Console.WriteLine("###########################################################################################################################");
-
-                recommendedGameNumbers.Add(possibleGame.PossibleNumbers.FirstOrDefault());
+                if(!recommendedGameNumbers.Any(rgn => rgn == possibleNumber))
+                {
+                    recommendedGameNumbers.Add(possibleNumber);
+                }
+                else
+                {
+                    recommendedGameNumbers.Add(possibleGame.LaterNumbers
+                            .OrderByDescending(x => x.Count())
+                                .Where(lns => !recommendedGameNumbers
+                                    .Any(rgn => rgn
+                                        .Contains(lns.FirstOrDefault())))
+                                            .FirstOrDefault()
+                                                .FirstOrDefault());
+                }
             }
 
-            Console.WriteLine($"Jogo recomendado: " +
-                $"{ string.Join("-", recommendedGameNumbers.Select(x => int.TryParse(x, out int result) ? result : 0).OrderBy(x => x).Distinct().Take(6))}");
+            return RecommendedGame.CreateRecommendedGame(recommendedGameNumbers, DateTime.Now, possibleGames);
         }
     }
 }

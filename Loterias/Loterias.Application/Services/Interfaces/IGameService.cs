@@ -5,6 +5,6 @@ namespace Loterias.Application.Services.Interfaces
 {
     public interface IGameService
     {
-        void ProcessRecommendedGame(IEnumerable<Game> games);
+        RecommendedGame ProcessRecommendedGame(IEnumerable<Game> games);
     }
 }
