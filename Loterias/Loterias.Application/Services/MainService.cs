@@ -9,12 +9,14 @@ namespace Loterias.Application.Services
         private readonly ICsvService _csvService;
         private readonly IGameService _gameService;
         private readonly IScrapingService _scrapingService;
+        private readonly IEmailService _emailService;
 
-        public MainService(ICsvService csvService, IGameService gameService, IScrapingService scrapingService)
+        public MainService(ICsvService csvService, IGameService gameService, IScrapingService scrapingService, IEmailService emailService)
         {
             _csvService = csvService;
             _gameService = gameService;
             _scrapingService = scrapingService;
+            _emailService = emailService;
         }
 
         public async Task Execute()
@@ -23,7 +25,8 @@ namespace Loterias.Application.Services
             {
                 await _csvService.Update(await _scrapingService.Read());
                 var games = await _csvService.Read();
-                _gameService.ProcessRecommendedGame(games);
+                var recommendedGame = _gameService.ProcessRecommendedGame(games);
+                await _emailService.ProcessEmailSubmission(recommendedGame);
             }
             catch (Exception)
             {

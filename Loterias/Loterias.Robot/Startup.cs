@@ -29,6 +29,7 @@ namespace Loterias.Robot
             services.AddTransient<IGameService, GameService>();
             services.AddTransient<IScrapingService, ScrapingService>();
             services.AddTransient<IHttpService, HttpService>();
+            services.AddTransient<IEmailService, EmailService>();
             services.AddSingleton<HttpClient>();
 
             services.Configure<GameRequest>(
@@ -36,6 +37,12 @@ namespace Loterias.Robot
 
             services.Configure<TablePosition>(
                 Configuration.GetSection(nameof(TablePosition)));
+
+            services.Configure<EmailSendingInfo>(
+                Configuration.GetSection(nameof(EmailSendingInfo)));
+
+            services.Configure<SendGridInfo>(
+                Configuration.GetSection(nameof(SendGridInfo)));
 
             services.AddHangfire(op =>
             {
