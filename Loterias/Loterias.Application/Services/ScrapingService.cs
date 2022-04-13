@@ -7,7 +7,6 @@ using Loterias.Application.Utils.Request.Models;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Linq;
-using Loterias.Application.Models;
 using Loterias.Application.Utils.Csv.Models;
 using System;
 
@@ -44,16 +43,13 @@ namespace Loterias.Application.Services
                 .SelectNodes("//table[@class='tabela-resultado megasena']/tbody/tr")
                 .Select(tr => tr.SelectNodes(".//td").Skip(_tablePosition.Skip).Take(_tablePosition.Take).ToList());
 
-            var first = games.FirstOrDefault();
-            var last = games.LastOrDefault();
-
             List<Csv> extractedGames = new();
 
-            foreach (var game in games)
+            Parallel.ForEach(games, game =>
             {
                 Csv extractedGame = game.ToList();
                 extractedGames.Add(extractedGame);
-            }
+            });
 
             return extractedGames.OrderBy(extractedGame => DateTime.Parse(extractedGame.DrawDate));
         }
