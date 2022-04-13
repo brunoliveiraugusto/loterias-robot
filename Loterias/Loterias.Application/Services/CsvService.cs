@@ -17,7 +17,8 @@ namespace Loterias.Application.Services
     public class CsvService : ICsvService
     {
         private readonly CsvConfiguration _config = new(CultureInfo.InvariantCulture) { Delimiter = ";", HasHeaderRecord = false };
-        private const string PATH_CSV = "C:\\Projetos\\Pessoal\\Loterias\\loterias-robot\\Loterias\\Loterias.Application\\FilesCsv\\MS.csv";
+        //TODO: Ajustar para obter caminho relativo
+        private const string PATH_CSV = "C:\\Projetos\\Pessoal\\Loterias\\loterias-robot\\Loterias\\Loterias.Application\\Files\\MS.csv";
 
         public async Task<IEnumerable<Game>> Read()
         {
