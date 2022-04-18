@@ -13,7 +13,8 @@ namespace Loterias.Application.Utils.Email.Templates
             return new RecommendedGameHtml
             {
                 Html = RecommendedGameTemplate.Game
-                                .Replace("{DataProximoSorteio}", DateTime.Now.Date.ToShortDateString())
+                                .Replace("{DataProximoSorteio}", recommendedGame.NextDrawDate.Date.ToShortDateString())
+
                                 .Replace("{PrimeiroNumero}", recommendedGame.PossibleGames.ElementAt(0).Number)
                                 .Replace("{SegundoNumero}", recommendedGame.PossibleGames.ElementAt(1).Number)
                                 .Replace("{TerceiroNumero}", recommendedGame.PossibleGames.ElementAt(2).Number)
@@ -35,12 +36,12 @@ namespace Loterias.Application.Utils.Email.Templates
                                 .Replace("{QntdQuintoSucessorSorteado}", recommendedGame.PossibleGames.ElementAt(4).PossibleNumbers.Count().ToString())
                                 .Replace("{QntdSextoSucessorSorteado}", recommendedGame.PossibleGames.ElementAt(5).PossibleNumbers.Count().ToString())
 
-                                .Replace("{PrimeiroRecomendado}", recommendedGame.Numbers.ElementAt(0))
-                                .Replace("{SegundoRecomendado}", recommendedGame.Numbers.ElementAt(1))
-                                .Replace("{TerceiroRecomendado}", recommendedGame.Numbers.ElementAt(2))
-                                .Replace("{QuartoRecomendado}", recommendedGame.Numbers.ElementAt(3))
-                                .Replace("{QuintoRecomendado}", recommendedGame.Numbers.ElementAt(4))
-                                .Replace("{SextoRecomendado}", recommendedGame.Numbers.ElementAt(5))
+                                .Replace("{PrimeiroRecomendado}", recommendedGame.Numbers.ElementAt(0).ToString())
+                                .Replace("{SegundoRecomendado}", recommendedGame.Numbers.ElementAt(1).ToString())
+                                .Replace("{TerceiroRecomendado}", recommendedGame.Numbers.ElementAt(2).ToString())
+                                .Replace("{QuartoRecomendado}", recommendedGame.Numbers.ElementAt(3).ToString())
+                                .Replace("{QuintoRecomendado}", recommendedGame.Numbers.ElementAt(4).ToString())
+                                .Replace("{SextoRecomendado}", recommendedGame.Numbers.ElementAt(5).ToString())
             };
         }
     }
