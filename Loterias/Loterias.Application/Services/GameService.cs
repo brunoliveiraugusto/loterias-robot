@@ -77,27 +77,31 @@ namespace Loterias.Application.Services
 
         private string[] GetLastGame(List<Game> games)
         {
-            return games.FirstOrDefault().GameDrawn.Split("-");
+            return games.LastOrDefault().GameDrawn.Split("-");
         }
 
-        private DateTime GetNextDrawDate(DateTime dateLastDraw)
+        private DateTime GetNextDrawDate()
         {
-            return dateLastDraw.DayOfWeek == DayOfWeek.Wednesday ?
-                                    dateLastDraw.AddDays(3) : dateLastDraw.AddDays(4);
+            return DateTime.Now.Day switch
+            {
+                (int)DayOfWeek.Monday => DateTime.Now.AddDays(2),
+                (int)DayOfWeek.Tuesday => DateTime.Now.AddDays(1),
+                (int)DayOfWeek.Wednesday => DateTime.Now,
+                (int)DayOfWeek.Thursday => DateTime.Now.AddDays(2),
+                (int)DayOfWeek.Friday => DateTime.Now.AddDays(1),
+                (int)DayOfWeek.Saturday => DateTime.Now,
+                (int)DayOfWeek.Sunday => DateTime.Now.AddDays(3),
+                _ => DateTime.Now,
+            };
         }
 
         private RecommendedGame GetRecommendedGame(List<PossibleGame> possibleGames)
         {
-            //TODO: Refatoração do método separando responsabilidades.
-            var recommendedGameNumbers = new List<string>();
+            List<string> recommendedGameNumbers = new();
 
             foreach (var possibleGame in possibleGames)
             {
                 var possibleNumber = possibleGame.PossibleNumbers.FirstOrDefault();
-
-                Console.WriteLine($"Número anterior: {possibleGame.Number} - " +
-                    $"Número que mais saiu posteriormente: {possibleNumber} - " +
-                    $"Quantidade de vezes: {possibleGame.PossibleNumbers.Count()}");
 
                 if(!recommendedGameNumbers.Any(rgn => rgn == possibleNumber))
                 {
@@ -115,7 +119,9 @@ namespace Loterias.Application.Services
                 }
             }
 
-            return RecommendedGame.CreateRecommendedGame(recommendedGameNumbers, DateTime.Now, possibleGames);
+            var orderedNumbers = recommendedGameNumbers.Select(rgn => int.TryParse(rgn, out int result) ? result : 0).OrderBy(number => number).AsEnumerable();
+
+            return RecommendedGame.CreateRecommendedGame(orderedNumbers, GetNextDrawDate(), possibleGames);
         }
     }
 }

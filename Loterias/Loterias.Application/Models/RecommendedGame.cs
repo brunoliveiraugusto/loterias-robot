@@ -5,11 +5,11 @@ namespace Loterias.Application.Models
 {
     public class RecommendedGame
     {
-        public IEnumerable<string> Numbers { get; set; }
+        public IEnumerable<int> Numbers { get; set; }
         public DateTime NextDrawDate { get; set; }
         public IEnumerable<PossibleGame> PossibleGames { get; set; }
 
-        public static RecommendedGame CreateRecommendedGame(List<string> numbers, DateTime nextDrawDate, List<PossibleGame> possibleGames)
+        public static RecommendedGame CreateRecommendedGame(IEnumerable<int> numbers, DateTime nextDrawDate, List<PossibleGame> possibleGames)
         {
             return new RecommendedGame
             {
