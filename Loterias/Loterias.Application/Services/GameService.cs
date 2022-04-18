@@ -82,15 +82,15 @@ namespace Loterias.Application.Services
 
         private DateTime GetNextDrawDate()
         {
-            return DateTime.Now.Day switch
+            return DateTime.Now.DayOfWeek switch
             {
-                (int)DayOfWeek.Monday => DateTime.Now.AddDays(2),
-                (int)DayOfWeek.Tuesday => DateTime.Now.AddDays(1),
-                (int)DayOfWeek.Wednesday => DateTime.Now,
-                (int)DayOfWeek.Thursday => DateTime.Now.AddDays(2),
-                (int)DayOfWeek.Friday => DateTime.Now.AddDays(1),
-                (int)DayOfWeek.Saturday => DateTime.Now,
-                (int)DayOfWeek.Sunday => DateTime.Now.AddDays(3),
+                DayOfWeek.Monday => DateTime.Now.AddDays(2),
+                DayOfWeek.Tuesday => DateTime.Now.AddDays(1),
+                DayOfWeek.Wednesday => DateTime.Now,
+                DayOfWeek.Thursday => DateTime.Now.AddDays(2),
+                DayOfWeek.Friday => DateTime.Now.AddDays(1),
+                DayOfWeek.Saturday => DateTime.Now,
+                DayOfWeek.Sunday => DateTime.Now.AddDays(3),
                 _ => DateTime.Now,
             };
         }
@@ -119,9 +119,10 @@ namespace Loterias.Application.Services
                 }
             }
 
-            var orderedNumbers = recommendedGameNumbers.Select(rgn => int.TryParse(rgn, out int result) ? result : 0).OrderBy(number => number).AsEnumerable();
+            var orderedNumbers = recommendedGameNumbers.Select(rgn => int.Parse(rgn)).OrderBy(number => number).AsEnumerable();
+            var possibleOrderedGames = possibleGames.OrderBy(pg => int.Parse(pg.Number)).AsEnumerable();
 
-            return RecommendedGame.CreateRecommendedGame(orderedNumbers, GetNextDrawDate(), possibleGames);
+            return RecommendedGame.CreateRecommendedGame(orderedNumbers, GetNextDrawDate(), possibleOrderedGames);
         }
     }
 }
