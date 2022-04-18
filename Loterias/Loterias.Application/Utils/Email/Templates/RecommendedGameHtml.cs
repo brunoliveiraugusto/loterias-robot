@@ -15,12 +15,12 @@ namespace Loterias.Application.Utils.Email.Templates
                 Html = RecommendedGameTemplate.Game
                                 .Replace("{DataProximoSorteio}", recommendedGame.NextDrawDate.Date.ToShortDateString())
 
-                                .Replace("{PrimeiroNumero}", recommendedGame.PossibleGames.ElementAt(0).Number)
-                                .Replace("{SegundoNumero}", recommendedGame.PossibleGames.ElementAt(1).Number)
-                                .Replace("{TerceiroNumero}", recommendedGame.PossibleGames.ElementAt(2).Number)
-                                .Replace("{QuartoNumero}", recommendedGame.PossibleGames.ElementAt(3).Number)
-                                .Replace("{QuintoNumero}", recommendedGame.PossibleGames.ElementAt(4).Number)
-                                .Replace("{SextoNumero}", recommendedGame.PossibleGames.ElementAt(5).Number)
+                                .Replace("{PrimeiroNumeroAnterior}", recommendedGame.PossibleGames.ElementAt(0).Number)
+                                .Replace("{SegundoNumeroAnterior}", recommendedGame.PossibleGames.ElementAt(1).Number)
+                                .Replace("{TerceiroNumeroAnterior}", recommendedGame.PossibleGames.ElementAt(2).Number)
+                                .Replace("{QuartoNumeroAnterior}", recommendedGame.PossibleGames.ElementAt(3).Number)
+                                .Replace("{QuintoNumeroAnterior}", recommendedGame.PossibleGames.ElementAt(4).Number)
+                                .Replace("{SextoNumeroAnterior}", recommendedGame.PossibleGames.ElementAt(5).Number)
 
                                 .Replace("{PrimeiroSucessor}", recommendedGame.PossibleGames.ElementAt(0).PossibleNumbers.ElementAt(0))
                                 .Replace("{SegundoSucessor}", recommendedGame.PossibleGames.ElementAt(1).PossibleNumbers.ElementAt(1))
