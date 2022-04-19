@@ -1,15 +1,19 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.31727.386
+# Visual Studio Version 17
+VisualStudioVersion = 17.1.32407.343
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Loterias.Robot", "Loterias.Robot\Loterias.Robot.csproj", "{31185D6E-D1B7-452D-9204-59BF049C7FA8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Loterias.Robot", "Loterias.Robot\Loterias.Robot.csproj", "{31185D6E-D1B7-452D-9204-59BF049C7FA8}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Application", "Application", "{5D57F25F-ED88-4EBF-ADA1-E3FCB467F585}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Loterias.Application", "Loterias.Application\Loterias.Application.csproj", "{B5DA4C68-3D98-4057-AC63-DDF164045C87}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Loterias.Application", "Loterias.Application\Loterias.Application.csproj", "{B5DA4C68-3D98-4057-AC63-DDF164045C87}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Robot", "Robot", "{78BAF604-4D29-4E3A-9EE9-74AE23FF8A52}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{4431031D-F569-4DC4-849E-C95CFC0CA821}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Loterias.Test", "Loterias.Testes\Loterias.Test.csproj", "{1A84685C-538B-484E-8EF2-5392ED515007}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -25,6 +29,10 @@ Global
 		{B5DA4C68-3D98-4057-AC63-DDF164045C87}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B5DA4C68-3D98-4057-AC63-DDF164045C87}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B5DA4C68-3D98-4057-AC63-DDF164045C87}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1A84685C-538B-484E-8EF2-5392ED515007}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1A84685C-538B-484E-8EF2-5392ED515007}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1A84685C-538B-484E-8EF2-5392ED515007}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1A84685C-538B-484E-8EF2-5392ED515007}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -32,6 +40,7 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{31185D6E-D1B7-452D-9204-59BF049C7FA8} = {78BAF604-4D29-4E3A-9EE9-74AE23FF8A52}
 		{B5DA4C68-3D98-4057-AC63-DDF164045C87} = {5D57F25F-ED88-4EBF-ADA1-E3FCB467F585}
+		{1A84685C-538B-484E-8EF2-5392ED515007} = {4431031D-F569-4DC4-849E-C95CFC0CA821}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {C4EEA931-D397-492C-919D-A297269574B5}
