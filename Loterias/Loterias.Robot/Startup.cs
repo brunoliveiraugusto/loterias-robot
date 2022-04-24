@@ -1,5 +1,6 @@
 using Hangfire;
 using Hangfire.MemoryStorage;
+using Loterias.Application.Models;
 using Loterias.Application.Services;
 using Loterias.Application.Services.Interfaces;
 using Loterias.Application.Utils.Request;
@@ -29,7 +30,8 @@ namespace Loterias.Robot
             services.AddTransient<IGameService, GameService>();
             services.AddTransient<IScrapingService, ScrapingService>();
             services.AddTransient<IHttpService, HttpService>();
-            services.AddTransient<IEmailService, EmailService>();
+            services.AddTransient<IMessageService<Email>, EmailService>();
+            services.AddTransient<IMessageProducerService, RabbitMQProducerService>();
             services.AddSingleton<HttpClient>();
 
             services.Configure<GameRequest>(
@@ -40,9 +42,6 @@ namespace Loterias.Robot
 
             services.Configure<EmailSendingInfo>(
                 Configuration.GetSection(nameof(EmailSendingInfo)));
-
-            services.Configure<SendGridInfo>(
-                Configuration.GetSection(nameof(SendGridInfo)));
 
             services.AddHangfire(op =>
             {

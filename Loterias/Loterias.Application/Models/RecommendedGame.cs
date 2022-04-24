@@ -8,6 +8,7 @@ namespace Loterias.Application.Models
         public IEnumerable<int> Numbers { get; set; }
         public DateTime NextDrawDate { get; set; }
         public IEnumerable<PossibleGame> PossibleGames { get; set; }
+        public LastDraw LastDraw { get; set; }
 
         public static RecommendedGame CreateRecommendedGame(IEnumerable<int> numbers, DateTime nextDrawDate, IEnumerable<PossibleGame> possibleGames)
         {

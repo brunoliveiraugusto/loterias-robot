@@ -15,6 +15,7 @@ namespace Loterias.Application.Services
             var updatedPredictions = GroupLaterNumbersForEachGameNumber(predictions);
             var lastGame = GetLastGame(listGames);
             var predictionsNumbers = GetLaterNumbersPredictionBasedOnLastGameNumbers(updatedPredictions, lastGame);
+            //var lastDraw = GetInfoLastDraw(listGames);
             return GetRecommendedGame(predictionsNumbers);
 
         }
@@ -124,5 +125,10 @@ namespace Loterias.Application.Services
 
             return RecommendedGame.CreateRecommendedGame(orderedNumbers, GetNextDrawDate(), possibleOrderedGames);
         }
+
+        //private LastDraw GetInfoLastDraw(IEnumerable<Game> games)
+        //{
+        //    var lastGameDrawn = games.ElementAt(games.Count() - 2);
+        //}
     }
 }
