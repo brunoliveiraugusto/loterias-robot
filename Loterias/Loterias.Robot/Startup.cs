@@ -43,6 +43,9 @@ namespace Loterias.Robot
             services.Configure<EmailSendingInfo>(
                 Configuration.GetSection(nameof(EmailSendingInfo)));
 
+            services.Configure<RabbitMqConfig>(
+                Configuration.GetSection(nameof(RabbitMqConfig)));
+
             services.AddHangfire(op =>
             {
                 op.UseMemoryStorage();
