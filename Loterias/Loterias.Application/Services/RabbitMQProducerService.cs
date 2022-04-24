@@ -10,16 +10,21 @@ namespace Loterias.Application.Services
     public class RabbitMQProducerService : IMessageProducerService
     {
         private readonly RabbitMqConfig _config;
+        private readonly ConnectionFactory _factory;
 
         public RabbitMQProducerService(IOptions<RabbitMqConfig> options)
         {
             _config = options.Value;
+
+            _factory = new ConnectionFactory
+            {
+                HostName = _config.Host
+            };
         }
 
         public void SendMessage<T>(T message) where T : class
         {
-            var factory = new ConnectionFactory { HostName = _config.Host };
-            var connection = factory.CreateConnection();
+            using var connection = _factory.CreateConnection();
             using var channel = connection.CreateModel();
             channel.QueueDeclare(queue: _config.Queue, durable: false, exclusive: false, autoDelete: false);
 
