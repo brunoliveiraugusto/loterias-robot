@@ -1,5 +1,7 @@
 ﻿using Loterias.Application.Models;
 using Loterias.Application.Services.Interfaces;
+using Loterias.Application.Utils.Settings;
+using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,6 +10,13 @@ namespace Loterias.Application.Services
 {
     public class GameService : IGameService
     {
+        private bool _isMegasena;
+
+        public GameService(IOptions<GameInfo> options)
+        {
+            _isMegasena = options.Value.IsMegaSena;
+        }
+
         public RecommendedGame ProcessRecommendedGame(IEnumerable<Game> games)
         {
             var listGames = games.ToList();
@@ -83,15 +92,24 @@ namespace Loterias.Application.Services
 
         private DateTime GetNextDrawDate()
         {
+            if(_isMegasena)
+            {
+                return DateTime.Now.DayOfWeek switch
+                {
+                    DayOfWeek.Monday => DateTime.Now.AddDays(2),
+                    DayOfWeek.Tuesday => DateTime.Now.AddDays(1),
+                    DayOfWeek.Wednesday => DateTime.Now,
+                    DayOfWeek.Thursday => DateTime.Now.AddDays(2),
+                    DayOfWeek.Friday => DateTime.Now.AddDays(1),
+                    DayOfWeek.Saturday => DateTime.Now,
+                    DayOfWeek.Sunday => DateTime.Now.AddDays(3),
+                    _ => DateTime.Now,
+                };
+            }
+
             return DateTime.Now.DayOfWeek switch
             {
-                DayOfWeek.Monday => DateTime.Now.AddDays(2),
-                DayOfWeek.Tuesday => DateTime.Now.AddDays(1),
-                DayOfWeek.Wednesday => DateTime.Now,
-                DayOfWeek.Thursday => DateTime.Now.AddDays(2),
-                DayOfWeek.Friday => DateTime.Now.AddDays(1),
-                DayOfWeek.Saturday => DateTime.Now,
-                DayOfWeek.Sunday => DateTime.Now.AddDays(3),
+                DayOfWeek.Sunday => DateTime.Now.AddDays(1),
                 _ => DateTime.Now,
             };
         }
@@ -123,7 +141,7 @@ namespace Loterias.Application.Services
             var orderedNumbers = recommendedGameNumbers.Select(rgn => int.Parse(rgn)).OrderBy(number => number).AsEnumerable();
             var possibleOrderedGames = possibleGames.OrderBy(pg => int.Parse(pg.Number)).AsEnumerable();
 
-            return RecommendedGame.CreateRecommendedGame(orderedNumbers, GetNextDrawDate(), possibleOrderedGames);
+            return RecommendedGame.CreateRecommendedGame(orderedNumbers, GetNextDrawDate(), possibleOrderedGames, _isMegasena);
         }
 
         //private LastDraw GetInfoLastDraw(IEnumerable<Game> games)
