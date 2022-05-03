@@ -23,9 +23,9 @@ namespace Loterias.Application.Services
             var predictions = AddSubsequentNumbersToEachNumberDrawn(listGames);
             var updatedPredictions = GroupLaterNumbersForEachGameNumber(predictions);
             var lastGame = GetLastGame(listGames);
-            var predictionsNumbers = GetLaterNumbersPredictionBasedOnLastGameNumbers(updatedPredictions, lastGame);
+            var predictionsNumbers = GetLaterNumbersPredictionBasedOnLastGameNumbers(updatedPredictions, lastGame.Numbers);
             //var lastDraw = GetInfoLastDraw(listGames);
-            return GetRecommendedGame(predictionsNumbers);
+            return GetRecommendedGame(predictionsNumbers, lastGame.DrawDate);
 
         }
 
@@ -85,36 +85,39 @@ namespace Loterias.Application.Services
             return teste;
         }
 
-        private string[] GetLastGame(List<Game> games)
+        private LastGame GetLastGame(List<Game> games)
         {
-            return games.LastOrDefault().GameDrawn.Split("-");
+            LastGame lastGame = games.LastOrDefault();
+            return lastGame;
         }
 
-        private DateTime GetNextDrawDate()
+        private DateTime GetNextDrawDate(DateTime? dateLastDraw)
         {
+            DateTime lastDraw = dateLastDraw ?? DateTime.Now;
+
             if(_isMegasena)
             {
-                return DateTime.Now.DayOfWeek switch
+                return lastDraw.DayOfWeek switch
                 {
-                    DayOfWeek.Monday => DateTime.Now.AddDays(2),
-                    DayOfWeek.Tuesday => DateTime.Now.AddDays(1),
-                    DayOfWeek.Wednesday => DateTime.Now,
-                    DayOfWeek.Thursday => DateTime.Now.AddDays(2),
-                    DayOfWeek.Friday => DateTime.Now.AddDays(1),
-                    DayOfWeek.Saturday => DateTime.Now,
-                    DayOfWeek.Sunday => DateTime.Now.AddDays(3),
-                    _ => DateTime.Now,
+                    DayOfWeek.Monday => lastDraw.AddDays(2),
+                    DayOfWeek.Tuesday => lastDraw.AddDays(1),
+                    DayOfWeek.Wednesday => lastDraw,
+                    DayOfWeek.Thursday => lastDraw.AddDays(2),
+                    DayOfWeek.Friday => lastDraw.AddDays(1),
+                    DayOfWeek.Saturday => lastDraw,
+                    DayOfWeek.Sunday => lastDraw.AddDays(3),
+                    _ => lastDraw,
                 };
             }
 
-            return DateTime.Now.DayOfWeek switch
+            return lastDraw.DayOfWeek switch
             {
-                DayOfWeek.Sunday => DateTime.Now.AddDays(1),
-                _ => DateTime.Now,
+                DayOfWeek.Sunday => lastDraw.AddDays(1),
+                _ => lastDraw,
             };
         }
 
-        private RecommendedGame GetRecommendedGame(List<PossibleGame> possibleGames)
+        private RecommendedGame GetRecommendedGame(List<PossibleGame> possibleGames, DateTime dateLastDraw)
         {
             List<string> recommendedGameNumbers = new();
 
@@ -125,23 +128,22 @@ namespace Loterias.Application.Services
                 if(!recommendedGameNumbers.Any(rgn => rgn == possibleNumber))
                 {
                     recommendedGameNumbers.Add(possibleNumber);
+                    continue;
                 }
-                else
-                {
-                    recommendedGameNumbers.Add(possibleGame.LaterNumbers
-                            .OrderByDescending(x => x.Count())
-                                .Where(lns => !recommendedGameNumbers
-                                    .Any(rgn => rgn
-                                        .Contains(lns.FirstOrDefault())))
-                                            .FirstOrDefault()
-                                                .FirstOrDefault());
-                }
+                
+                recommendedGameNumbers.Add(possibleGame.LaterNumbers
+                        .OrderByDescending(x => x.Count())
+                            .Where(lns => !recommendedGameNumbers
+                                .Any(rgn => rgn
+                                    .Contains(lns.FirstOrDefault())))
+                                        .FirstOrDefault()
+                                            .FirstOrDefault());
             }
 
             var orderedNumbers = recommendedGameNumbers.Select(rgn => int.Parse(rgn)).OrderBy(number => number).AsEnumerable();
             var possibleOrderedGames = possibleGames.OrderBy(pg => int.Parse(pg.Number)).AsEnumerable();
 
-            return RecommendedGame.CreateRecommendedGame(orderedNumbers, GetNextDrawDate(), possibleOrderedGames, _isMegasena);
+            return RecommendedGame.CreateRecommendedGame(orderedNumbers, GetNextDrawDate(dateLastDraw), possibleOrderedGames, _isMegasena);
         }
 
         //private LastDraw GetInfoLastDraw(IEnumerable<Game> games)
