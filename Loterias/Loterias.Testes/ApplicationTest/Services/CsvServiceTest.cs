@@ -18,7 +18,8 @@ namespace Loterias.Test.ApplicationTest.Services
 
         private CsvService Build()
         {
-            return new CsvService();
+            //TODO: Ajustar dependência
+            return new CsvService(null);
         }
 
         [Fact(DisplayName = "Teste para o carregamento dos jogos")]

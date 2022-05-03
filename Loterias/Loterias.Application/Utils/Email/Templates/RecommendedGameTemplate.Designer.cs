@@ -71,11 +71,11 @@ namespace Loterias.Application.Utils.Email.Templates {
         ///
         ///&lt;body style=&quot;width: 100%;height: 100%;background-color: white ;margin: 0;padding: 0;&quot;&gt;
         ///    &lt;div style=&quot;width: 100%;&quot;&gt;
-        ///        &lt;h1&gt;Mega Sena - Previsão Próximo Sorteio {DataProximoSorteio}:&lt;/h1&gt;
+        ///        &lt;h1&gt;{TipoJogo} - Previsão Próximo Sorteio {DataProximoSorteio}:&lt;/h1&gt;
         ///	&lt;/div&gt;
         ///    &lt;div style=&quot;width: 100%;&quot;&gt;
         ///        &lt;h1&gt;Último Sorteio:&lt;/h1&gt;
-        ///     [rest of string was truncated]&quot;;.
+        ///    [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string Game {
             get {

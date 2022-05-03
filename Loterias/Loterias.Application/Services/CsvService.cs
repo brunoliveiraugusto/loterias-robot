@@ -3,7 +3,10 @@ using CsvHelper.Configuration;
 using Loterias.Application.Models;
 using Loterias.Application.Services.Interfaces;
 using Loterias.Application.Utils.Csv.Models;
+using Loterias.Application.Utils.Csv.Models.Maps;
 using Loterias.Application.Utils.Exceptions;
+using Loterias.Application.Utils.Settings;
+using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -18,13 +21,20 @@ namespace Loterias.Application.Services
     {
         private readonly CsvConfiguration _config = new(CultureInfo.InvariantCulture) { Delimiter = ";", HasHeaderRecord = false };
         //TODO: Ajustar para obter caminho relativo
-        private const string PATH_CSV = "C:\\Projetos\\Pessoal\\Loterias\\loterias-robot\\Loterias\\Loterias.Application\\Files\\MS.csv";
+        private string _pathCsv;
+        private CsvMap _csvMap;
+
+        public CsvService(IOptions<GameInfo> tipoJogo, CsvMap csvMap)
+        {
+            SetPath(tipoJogo.Value);
+            _csvMap = csvMap;
+        }
 
         public async Task<IEnumerable<Game>> Read()
         {
             try
             {
-                var data = await File.ReadAllLinesAsync(PATH_CSV);
+                var data = await File.ReadAllLinesAsync(_pathCsv);
                 List<Game> games = new();
 
                 foreach (var line in data)
@@ -45,9 +55,9 @@ namespace Loterias.Application.Services
         {
             try
             {
-                if (File.Exists(PATH_CSV))
+                if (File.Exists(_pathCsv))
                 {
-                    var data = await File.ReadAllLinesAsync(PATH_CSV);
+                    var data = await File.ReadAllLinesAsync(_pathCsv);
                     DateTime? lastDateDrawn = ExtractDateLastDraw(data);
                     IEnumerable<Csv> gamesToBeInserted = lastDateDrawn != null ? games.Where(game => DateTime.Parse(game.DrawDate) > lastDateDrawn) : games;
                     await UpdateExistsFile(gamesToBeInserted);
@@ -66,8 +76,9 @@ namespace Loterias.Application.Services
         {
             try
             {
-                using var writer = new StreamWriter(PATH_CSV, false, Encoding.UTF8);
+                using var writer = new StreamWriter(_pathCsv, false, Encoding.UTF8);
                 using var csv = new CsvWriter(writer, _config);
+                csv.Context.RegisterClassMap(_csvMap);
                 await csv.WriteRecordsAsync(games);
             }
             catch
@@ -80,8 +91,9 @@ namespace Loterias.Application.Services
         {
             try
             {
-                using var writer = new StreamWriter(PATH_CSV, true);
+                using var writer = new StreamWriter(_pathCsv, true);
                 using var csv = new CsvWriter(writer, _config);
+                csv.Context.RegisterClassMap(_csvMap);
                 await csv.WriteRecordsAsync(games);
             }
             catch
@@ -101,6 +113,16 @@ namespace Loterias.Application.Services
             {
                 return null;
             }
+        }
+
+        private void SetPath(GameInfo tipoJogo)
+        {
+            int indice = 0;
+
+            if (!tipoJogo.IsMegaSena)
+                indice = 1;
+
+            _pathCsv = $"C:\\Projetos\\Pessoal\\Loterias\\loterias-robot\\Loterias\\Loterias.Application\\Files\\{tipoJogo.GameAcronym.Split(",")[indice].Trim()}.csv";
         }
     }
 }

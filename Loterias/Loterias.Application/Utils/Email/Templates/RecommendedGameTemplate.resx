@@ -128,7 +128,7 @@
 
 &lt;body style="width: 100%;height: 100%;background-color: white ;margin: 0;padding: 0;"&gt;
     &lt;div style="width: 100%;"&gt;
-        &lt;h1&gt;Mega Sena - Previsão Próximo Sorteio {DataProximoSorteio}:&lt;/h1&gt;
+        &lt;h1&gt;{TipoJogo} - Previsão Próximo Sorteio {DataProximoSorteio}:&lt;/h1&gt;
 	&lt;/div&gt;
     &lt;div style="width: 100%;"&gt;
         &lt;h1&gt;Último Sorteio:&lt;/h1&gt;
@@ -139,19 +139,29 @@
             &lt;p&gt;Número anterior: {QuartoNumeroAnterior} - Sucessor mais sorteado: {QuartoSucessor} - Número de vezes: {QntdQuartoSucessorSorteado}&lt;/p&gt;
             &lt;p&gt;Número anterior: {QuintoNumeroAnterior} - Sucessor mais sorteado: {QuintoSucessor} - Número de vezes: {QntdQuintoSucessorSorteado}&lt;/p&gt;
             &lt;p&gt;Número anterior: {SextoNumeroAnterior} - Sucessor mais sorteado: {SextoSucessor} - Número de vezes: {QntdSextoSucessorSorteado}&lt;/p&gt;
+            
+            &lt;p {indicaLotofacil}&gt;Número anterior: {SetimoNumeroAnterior} - Sucessor mais sorteado: {SetimoSucessor} - Número de vezes: {QntdSetimoSucessorSorteado}&lt;/p&gt;
+            &lt;p {indicaLotofacil}&gt;Número anterior: {OitavoNumeroAnterior} - Sucessor mais sorteado: {OitavoSucessor} - Número de vezes: {QntdOitavoSucessorSorteado}&lt;/p&gt;
+            &lt;p {indicaLotofacil}&gt;Número anterior: {NonoNumeroAnterior} - Sucessor mais sorteado: {NonoSucessor} - Número de vezes: {QntdNonoSucessorSorteado}&lt;/p&gt;
+            &lt;p {indicaLotofacil}&gt;Número anterior: {DecimoNumeroAnterior} - Sucessor mais sorteado: {DecimoSucessor} - Número de vezes: {QntdDecimoSucessorSorteado}&lt;/p&gt;
+            &lt;p {indicaLotofacil}&gt;Número anterior: {DecimoPrimeiroNumeroAnterior} - Sucessor mais sorteado: {DecimoPrimeiroSucessor} - Número de vezes: {QntdDecimoPrimeiroSucessorSorteado}&lt;/p&gt;
+            &lt;p {indicaLotofacil}&gt;Número anterior: {DecimoSegundoNumeroAnterior} - Sucessor mais sorteado: {DecimoSegundoSucessor} - Número de vezes: {QntdDecimoSegundoSucessorSorteado}&lt;/p&gt;
+            &lt;p {indicaLotofacil}&gt;Número anterior: {DecimoTerceiroNumeroAnterior} - Sucessor mais sorteado: {DecimoTerceiroSucessor} - Número de vezes: {QntdDecimoTerceiroSucessorSorteado}&lt;/p&gt;
+            &lt;p {indicaLotofacil}&gt;Número anterior: {DecimoQuartoNumeroAnterior} - Sucessor mais sorteado: {DecimoQuartoSucessor} - Número de vezes: {QntdDecimoQuartoSucessorSorteado}&lt;/p&gt;
+            &lt;p {indicaLotofacil}&gt;Número anterior: {DecimoQuintoNumeroAnterior} - Sucessor mais sorteado: {DecimoQuintoSucessor} - Número de vezes: {QntdDecimoQuintoSucessorSorteado}&lt;/p&gt;
         &lt;/div&gt;
     &lt;/div&gt;
     &lt;div style="width: 100%;"&gt;
         &lt;h1&gt;Jogo Recomendado:&lt;/h1&gt;
-        &lt;p style="font-weight: bolder;"&gt;{PrimeiroRecomendado} - {SegundoRecomendado} - {TerceiroRecomendado} - {QuartoRecomendado} - {QuintoRecomendado} - {SextoRecomendado}&lt;/p&gt;
+        &lt;p style="font-weight: bolder;"&gt;{PrimeiroRecomendado} - {SegundoRecomendado} - {TerceiroRecomendado} - {QuartoRecomendado} - {QuintoRecomendado} - {SextoRecomendado} - {SetimoRecomendado} -  {OitavoRecomendado} -  {NonoRecomendado} -  {DecimoRecomendado} -  {DecimoPrimeiroRecomendado} -  {DecimoSegundoRecomendado} -  {DecimoTerceiroRecomendado} -  {DecimoQuartoRecomendado} -  {DecimoQuintoRecomendado}&lt;/p&gt;
     &lt;/div&gt;
-    &lt;div style="width: 100%;"&gt;
+    &lt;!-- &lt;div style="width: 100%;"&gt;
         &lt;h1&gt;Última Previsão:&lt;/h1&gt;
         &lt;h2&gt;Números previstos:&lt;/h2&gt;
         &lt;p style="font-weight: bolder;"&gt;{PrimeiroNumeroPrevisto} - {SegundoNumeroPrevisto} - {TerceiroNumeroPrevisto} - {QuartoNumeroPrevisto} - {QuintoNumeroPrevisto} - {SextoNumeroPrevisto}&lt;/p&gt;
         &lt;h2&gt;Números que foram sorteados:&lt;/h2&gt;
         &lt;p style="font-weight: bolder;"&gt;{PrimeiroNumeroSorteado} - {SegundoNumeroSorteado} - {TerceiroNumeroSorteado} - {QuartoNumeroSorteado} - {QuintoNumeroSorteado} - {SextoNumeroSorteado}&lt;/p&gt;
-    &lt;/div&gt;
+    &lt;/div&gt; --&gt;
 &lt;/body&gt;
 
 &lt;/html&gt;</value>
