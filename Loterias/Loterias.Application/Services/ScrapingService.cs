@@ -34,6 +34,7 @@ namespace Loterias.Application.Services
 
         public async Task<IEnumerable<Csv>> Read()
         {
+            //TODO: Realizar a leitura apenas se a última data sorteada for diferente da última data do csv.
             var data = await _httpService.Get<MegaSenaResponse>(_url, _requestParams);
             HtmlDocument doc = new();
             doc.LoadHtml(data.Html);
@@ -47,9 +48,7 @@ namespace Loterias.Application.Services
                 .SelectNodes($"//table[@class='tabela-resultado {_class}']/tbody/tr")
                 .Select(tr => tr.SelectNodes(".//td").Skip(_tableInfo.Skip).Take(_take).ToList());
 
-            IEnumerable<Csv> extractedGames;
-
-            extractedGames = SetExtractedGames(games);
+            IEnumerable<Csv> extractedGames = SetExtractedGames(games);
 
             return extractedGames.OrderBy(extractedGame => DateTime.Parse(extractedGame.DrawDate));
         }

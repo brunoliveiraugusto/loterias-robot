@@ -19,19 +19,20 @@ namespace Loterias.Application.Services
 
         public RecommendedGame ProcessRecommendedGame(IEnumerable<Game> games)
         {
+            //TODO: Implementar obtenção de dados do último sorteio, assertividade, etc.
             var listGames = games.ToList();
             var predictions = AddSubsequentNumbersToEachNumberDrawn(listGames);
             var updatedPredictions = GroupLaterNumbersForEachGameNumber(predictions);
             var lastGame = GetLastGame(listGames);
             var predictionsNumbers = GetLaterNumbersPredictionBasedOnLastGameNumbers(updatedPredictions, lastGame.Numbers);
             //var lastDraw = GetInfoLastDraw(listGames);
-            return GetRecommendedGame(predictionsNumbers, lastGame.DrawDate);
+            return GetRecommendedGame(predictionsNumbers);
 
         }
 
         private Dictionary<string, List<string>> AddSubsequentNumbersToEachNumberDrawn(List<Game> games)
         {
-            Dictionary<string, List<string>> predictions = new Dictionary<string, List<string>>();
+            Dictionary<string, List<string>> predictions = new();
 
             for (int i = 0; i < games.Count - 1; i++)
             {
@@ -91,33 +92,31 @@ namespace Loterias.Application.Services
             return lastGame;
         }
 
-        private DateTime GetNextDrawDate(DateTime? dateLastDraw)
+        private DateTime GetNextDrawDate()
         {
-            DateTime lastDraw = dateLastDraw ?? DateTime.Now;
-
             if(_isMegasena)
             {
-                return lastDraw.DayOfWeek switch
+                return DateTime.Now.DayOfWeek switch
                 {
-                    DayOfWeek.Monday => lastDraw.AddDays(2),
-                    DayOfWeek.Tuesday => lastDraw.AddDays(1),
-                    DayOfWeek.Wednesday => lastDraw,
-                    DayOfWeek.Thursday => lastDraw.AddDays(2),
-                    DayOfWeek.Friday => lastDraw.AddDays(1),
-                    DayOfWeek.Saturday => lastDraw,
-                    DayOfWeek.Sunday => lastDraw.AddDays(3),
-                    _ => lastDraw,
+                    DayOfWeek.Monday => DateTime.Now.AddDays(2),
+                    DayOfWeek.Tuesday => DateTime.Now.AddDays(1),
+                    DayOfWeek.Wednesday => DateTime.Now,
+                    DayOfWeek.Thursday => DateTime.Now.AddDays(2),
+                    DayOfWeek.Friday => DateTime.Now.AddDays(1),
+                    DayOfWeek.Saturday => DateTime.Now,
+                    DayOfWeek.Sunday => DateTime.Now.AddDays(3),
+                    _ => DateTime.Now,
                 };
             }
 
-            return lastDraw.DayOfWeek switch
+            return DateTime.Now.DayOfWeek switch
             {
-                DayOfWeek.Sunday => lastDraw.AddDays(1),
-                _ => lastDraw,
+                DayOfWeek.Sunday => DateTime.Now.AddDays(1),
+                _ => DateTime.Now,
             };
         }
 
-        private RecommendedGame GetRecommendedGame(List<PossibleGame> possibleGames, DateTime dateLastDraw)
+        private RecommendedGame GetRecommendedGame(List<PossibleGame> possibleGames)
         {
             List<string> recommendedGameNumbers = new();
 
@@ -143,7 +142,7 @@ namespace Loterias.Application.Services
             var orderedNumbers = recommendedGameNumbers.Select(rgn => int.Parse(rgn)).OrderBy(number => number).AsEnumerable();
             var possibleOrderedGames = possibleGames.OrderBy(pg => int.Parse(pg.Number)).AsEnumerable();
 
-            return RecommendedGame.CreateRecommendedGame(orderedNumbers, GetNextDrawDate(dateLastDraw), possibleOrderedGames, _isMegasena);
+            return RecommendedGame.CreateRecommendedGame(orderedNumbers, GetNextDrawDate(), possibleOrderedGames, _isMegasena);
         }
 
         //private LastDraw GetInfoLastDraw(IEnumerable<Game> games)

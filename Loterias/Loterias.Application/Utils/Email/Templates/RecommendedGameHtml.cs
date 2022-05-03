@@ -45,7 +45,7 @@ namespace Loterias.Application.Utils.Email.Templates
             {
                 html = html
                         .Replace("{TipoJogo}", "Mega Sena")
-                        .Replace("{indicaLotofacil}", "hidden")
+                        .Replace("{exibirTagsAdicionais}", "none")
                         .Replace(" - {SetimoRecomendado} -  {OitavoRecomendado} -  {NonoRecomendado} -  {DecimoRecomendado} -  {DecimoPrimeiroRecomendado} -  " +
                             "{DecimoSegundoRecomendado} -  {DecimoTerceiroRecomendado} -  {DecimoQuartoRecomendado} -  {DecimoQuintoRecomendado}", "");
             } 
@@ -53,7 +53,7 @@ namespace Loterias.Application.Utils.Email.Templates
             {
                 html = html
                         .Replace("{TipoJogo}", "Lotofácil")
-                        .Replace(" {indicaLotofacil}", "")
+                        .Replace("{exibirTagsAdicionais}", "block")
 
                         .Replace("{SetimoNumeroAnterior}", recommendedGame.PossibleGames.ElementAt(6).Number)
                         .Replace("{OitavoNumeroAnterior}", recommendedGame.PossibleGames.ElementAt(7).Number)
