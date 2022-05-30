@@ -74,7 +74,7 @@ namespace Loterias.Application.Services
 
         private List<PossibleGame> GetLaterNumbersPredictionBasedOnLastGameNumbers(List<PossibleGame> games, string[] lastGame)
         {
-            var teste = games.Where(x => lastGame.Contains(x.Number))
+            return games.Where(x => lastGame.Contains(x.Number))
                         .Select(x => new PossibleGame
                         {
                             LaterNumbers = x.LaterNumbers,
@@ -82,8 +82,6 @@ namespace Loterias.Application.Services
                             Number = x.Number
                         })
                         .ToList();
-
-            return teste;
         }
 
         private LastGame GetLastGame(List<Game> games)
