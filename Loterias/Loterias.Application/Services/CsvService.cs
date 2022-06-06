@@ -102,7 +102,7 @@ namespace Loterias.Application.Services
             }
         }
 
-        private DateTime? ExtractDateLastDraw(string[] games)
+        private static DateTime? ExtractDateLastDraw(string[] games)
         {
             try
             {
@@ -122,7 +122,13 @@ namespace Loterias.Application.Services
             if (!tipoJogo.IsMegaSena)
                 indice = 1;
 
-            _pathCsv = $"C:\\Projetos\\Pessoal\\Loterias\\loterias-robot\\Loterias\\Loterias.Application\\Files\\{tipoJogo.GameAcronym.Split(",")[indice].Trim()}.csv";
+            _pathCsv = $"{GetCurrentPath()}\\Files\\{tipoJogo.GameAcronym.Split(",")[indice].Trim()}.csv";
+        }
+
+        private static string GetCurrentPath()
+        {
+            StringBuilder sb = new();
+            return sb.Append(Environment.CurrentDirectory.Split(".")[0]).Append(".Application").ToString();
         }
     }
 }
