@@ -6,7 +6,7 @@ namespace Loterias.Application.Utils.Csv.Models.Maps
 {
     public sealed class CsvMap : ClassMap<Csv>
     {
-        public CsvMap(IOptions<GameInfo> options)
+        public CsvMap(IOptions<GameSettings> options)
         {
             Map(m => m.DrawDate).Index(0);
             Map(m => m.NumberOne).Index(1);

@@ -2,16 +2,16 @@
 
 namespace Loterias.Test.Builders.Models
 {
-    public class GameInfoTestBuilder : BaseTestBuilder<GameInfo>
+    public class GameInfoTestBuilder : BaseTestBuilder<GameSettings>
     {
         public GameInfoTestBuilder()
         {
-            Model = new GameInfo();
+            Model = new GameSettings();
         }
 
         public GameInfoTestBuilder Default()
         {
-            Model = new GameInfo
+            Model = new GameSettings
             {
                 GameAcronym = "MS",
                 IsMegaSena = true
@@ -22,7 +22,7 @@ namespace Loterias.Test.Builders.Models
 
         public GameInfoTestBuilder GetLotofacil()
         {
-            Model = new GameInfo
+            Model = new GameSettings
             {
                 GameAcronym = "LF",
                 IsMegaSena = false

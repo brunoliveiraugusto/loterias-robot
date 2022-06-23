@@ -1,6 +1,6 @@
 ﻿namespace Loterias.Application.Utils.Settings
 {
-    public class EmailSendingInfo
+    public class EmailSendingSettings
     {
         public string Name { get; set; }
         public string Recipient { get; set; }

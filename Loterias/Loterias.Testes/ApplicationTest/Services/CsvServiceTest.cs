@@ -18,7 +18,7 @@ namespace Loterias.Test.ApplicationTest.Services
     {
         private readonly Mock<ICsvService> _csvServiceMock = new CsvServiceTestBuilder().Build();
         private readonly IEnumerable<Game> _gamesMock = new GameTestBuilder().Default().Build();
-        private readonly IOptions<GameInfo> _gameInfoMock = Options.Create(new GameInfoTestBuilder().Default().Build());
+        private readonly IOptions<GameSettings> _gameInfoMock = Options.Create(new GameInfoTestBuilder().Default().Build());
 
         private CsvService Build()
         {

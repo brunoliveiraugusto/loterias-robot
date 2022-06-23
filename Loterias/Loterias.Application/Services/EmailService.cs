@@ -9,9 +9,9 @@ namespace Loterias.Application.Services
 {
     public class EmailService : IMessageService<Email>
     {
-        private readonly EmailSendingInfo _emailSendingInfo;
+        private readonly EmailSendingSettings _emailSendingInfo;
 
-        public EmailService(IOptions<EmailSendingInfo> optionsEmailSending)
+        public EmailService(IOptions<EmailSendingSettings> optionsEmailSending)
         {
             _emailSendingInfo = optionsEmailSending?.Value;
         }

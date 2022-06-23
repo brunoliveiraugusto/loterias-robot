@@ -12,7 +12,7 @@ namespace Loterias.Application.Services
     {
         private bool _isMegasena;
 
-        public GameService(IOptions<GameInfo> options)
+        public GameService(IOptions<GameSettings> options)
         {
             _isMegasena = options.Value.IsMegaSena;
         }

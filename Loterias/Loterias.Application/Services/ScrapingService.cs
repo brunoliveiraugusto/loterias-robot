@@ -15,14 +15,14 @@ namespace Loterias.Application.Services
     public class ScrapingService : IScrapingService
     {
         private readonly string _url;
-        private readonly TableInfo _tableInfo;
+        private readonly TableSettings _tableInfo;
         private readonly IHttpService _httpService;
         private Dictionary<string, string> _requestParams = new();
         private string _class;
         private int _take;
         private readonly bool _isMegasena;
 
-        public ScrapingService(IOptions<GameRequest> optionsGameRequest, IOptions<TableInfo> optionsTablePosition, IHttpService httpService, IOptions<GameInfo> optionsGameInfo)
+        public ScrapingService(IOptions<GameRequestSettings> optionsGameRequest, IOptions<TableSettings> optionsTablePosition, IHttpService httpService, IOptions<GameSettings> optionsGameInfo)
         {
             _url = optionsGameRequest?.Value.Uri;
             _tableInfo = optionsTablePosition?.Value;
@@ -53,7 +53,7 @@ namespace Loterias.Application.Services
             return extractedGames.OrderBy(extractedGame => DateTime.Parse(extractedGame.DrawDate));
         }
 
-        private void SetTableInfo(TableInfo tableInfo)
+        private void SetTableInfo(TableSettings tableInfo)
         {
             int index = 0;
 
@@ -78,7 +78,7 @@ namespace Loterias.Application.Services
             return extractedGames;
         }
 
-        private void SetParamsGetRequest(GameRequest gameRequest)
+        private void SetParamsGetRequest(GameRequestSettings gameRequest)
         {
             int index = 0;
 

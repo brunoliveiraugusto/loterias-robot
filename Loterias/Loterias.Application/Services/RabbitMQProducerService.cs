@@ -9,10 +9,10 @@ namespace Loterias.Application.Services
 {
     public class RabbitMQProducerService : IMessageProducerService
     {
-        private readonly RabbitMqConfig _config;
+        private readonly RabbitMqSettings _config;
         private readonly ConnectionFactory _factory;
 
-        public RabbitMQProducerService(IOptions<RabbitMqConfig> options)
+        public RabbitMQProducerService(IOptions<RabbitMqSettings> options)
         {
             _config = options.Value;
 

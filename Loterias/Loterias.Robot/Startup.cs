@@ -36,20 +36,20 @@ namespace Loterias.Robot
             services.AddTransient<CsvMap>();
             services.AddSingleton<HttpClient>();
 
-            services.Configure<GameRequest>(
-                Configuration.GetSection(nameof(GameRequest)));
+            services.Configure<GameRequestSettings>(
+                Configuration.GetSection(nameof(GameRequestSettings)));
 
-            services.Configure<TableInfo>(
-                Configuration.GetSection(nameof(TableInfo)));
+            services.Configure<TableSettings>(
+                Configuration.GetSection(nameof(TableSettings)));
 
-            services.Configure<EmailSendingInfo>(
-                Configuration.GetSection(nameof(EmailSendingInfo)));
+            services.Configure<EmailSendingSettings>(
+                Configuration.GetSection(nameof(EmailSendingSettings)));
 
-            services.Configure<RabbitMqConfig>(
-                Configuration.GetSection(nameof(RabbitMqConfig)));
+            services.Configure<RabbitMqSettings>(
+                Configuration.GetSection(nameof(RabbitMqSettings)));
 
-            services.Configure<GameInfo>(
-                Configuration.GetSection(nameof(GameInfo)));
+            services.Configure<GameSettings>(
+                Configuration.GetSection(nameof(GameSettings)));
 
             services.AddHangfire(op =>
             {

@@ -24,7 +24,7 @@ namespace Loterias.Application.Services
         private string _pathCsv;
         private CsvMap _csvMap;
 
-        public CsvService(IOptions<GameInfo> tipoJogo, CsvMap csvMap)
+        public CsvService(IOptions<GameSettings> tipoJogo, CsvMap csvMap)
         {
             SetPath(tipoJogo.Value);
             _csvMap = csvMap;
@@ -115,7 +115,7 @@ namespace Loterias.Application.Services
             }
         }
 
-        private void SetPath(GameInfo tipoJogo)
+        private void SetPath(GameSettings tipoJogo)
         {
             int indice = 0;
 
