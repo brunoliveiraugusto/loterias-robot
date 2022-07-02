@@ -9,6 +9,7 @@ namespace Loterias.Application.Utils.Email.Templates
 
         public static implicit operator RecommendedGameHtml(RecommendedGame recommendedGame)
         {
+            //TODO: Adequar proximidade ao cenário de jogos com mais de 6 números.
             string html = RecommendedGameTemplate.Game
                                 .Replace("{DataProximoSorteio}", recommendedGame.NextDrawDate.Date.ToShortDateString())
 
