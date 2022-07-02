@@ -1,5 +1,4 @@
 ﻿using Loterias.Application.Models;
-using Loterias.Application.Utils.Settings;
 using System.Linq;
 
 namespace Loterias.Application.Utils.Email.Templates
@@ -39,9 +38,56 @@ namespace Loterias.Application.Utils.Email.Templates
                                 .Replace("{TerceiroRecomendado}", recommendedGame.Numbers.ElementAt(2).ToString())
                                 .Replace("{QuartoRecomendado}", recommendedGame.Numbers.ElementAt(3).ToString())
                                 .Replace("{QuintoRecomendado}", recommendedGame.Numbers.ElementAt(4).ToString())
-                                .Replace("{SextoRecomendado}", recommendedGame.Numbers.ElementAt(5).ToString());
+                                .Replace("{SextoRecomendado}", recommendedGame.Numbers.ElementAt(5).ToString())
 
-            if(recommendedGame.IsMegaSena)
+                                .Replace("{PrimeiroNumeroUltimoSorteio}", recommendedGame.Proximity.LastGame.ElementAt(0))
+                                .Replace("{SegundoNumeroUltimoSorteio}", recommendedGame.Proximity.LastGame.ElementAt(1))
+                                .Replace("{TerceiroNumeroUltimoSorteio}", recommendedGame.Proximity.LastGame.ElementAt(2))
+                                .Replace("{QuartoNumeroUltimoSorteio}", recommendedGame.Proximity.LastGame.ElementAt(3))
+                                .Replace("{QuintoNumeroUltimoSorteio}", recommendedGame.Proximity.LastGame.ElementAt(4))
+                                .Replace("{SextoNumeroUltimoSorteio}", recommendedGame.Proximity.LastGame.ElementAt(5))
+
+                                .Replace("{PrimeiroNumeroQueFoiRecomendadoPeloAlgoritmo}", recommendedGame.Proximity.Successors.OrderBy(s => int.Parse(s.RecommendedNumber)).ElementAt(0).RecommendedNumber)
+                                .Replace("{SegundoNumeroQueFoiRecomendadoPeloAlgoritmo}", recommendedGame.Proximity.Successors.OrderBy(s => int.Parse(s.RecommendedNumber)).ElementAt(1).RecommendedNumber)
+                                .Replace("{TerceiroNumeroQueFoiRecomendadoPeloAlgoritmo}", recommendedGame.Proximity.Successors.OrderBy(s => int.Parse(s.RecommendedNumber)).ElementAt(2).RecommendedNumber)
+                                .Replace("{QuartoNumeroQueFoiRecomendadoPeloAlgoritmo}", recommendedGame.Proximity.Successors.OrderBy(s => int.Parse(s.RecommendedNumber)).ElementAt(3).RecommendedNumber)
+                                .Replace("{QuintoNumeroQueFoiRecomendadoPeloAlgoritmo}", recommendedGame.Proximity.Successors.OrderBy(s => int.Parse(s.RecommendedNumber)).ElementAt(4).RecommendedNumber)
+                                .Replace("{SextoNumeroQueFoiRecomendadoPeloAlgoritmo}", recommendedGame.Proximity.Successors.OrderBy(s => int.Parse(s.RecommendedNumber)).ElementAt(5).RecommendedNumber)
+
+                                .Replace("{posicaoPrimeiroNumeroSorteadoCorretamente}", (recommendedGame.Proximity.Successors.ElementAt(0).Numbers.Count() - 1).ToString())
+                                .Replace("{primeiroNumeroQueFoiEscolhido}", recommendedGame.Proximity.Successors.ElementAt(0).Numbers.FirstOrDefault())
+                                .Replace("{posicaoDoPrimeiroNumeroQueDeveriaSerEscolhido}", (recommendedGame.Proximity.Successors.ElementAt(0).Numbers.Count() - 1).ToString())
+                                .Replace("{primeiroNumeroCorreto}", recommendedGame.Proximity.Successors.ElementAt(0).Numbers.LastOrDefault())
+
+                                .Replace("{posicaoSegundoNumeroSorteadoCorretamente}", (recommendedGame.Proximity.Successors.ElementAt(1).Numbers.Count() - 1).ToString())
+                                .Replace("{segundoNumeroQueFoiEscolhido}", recommendedGame.Proximity.Successors.ElementAt(1).Numbers.FirstOrDefault())
+                                .Replace("{posicaoDoSegundoNumeroQueDeveriaSerEscolhido}", (recommendedGame.Proximity.Successors.ElementAt(1).Numbers.Count() - 1).ToString())
+                                .Replace("{segundoNumeroCorreto}", recommendedGame.Proximity.Successors.ElementAt(1).Numbers.LastOrDefault())
+
+                                .Replace("{posicaoTerceiroNumeroSorteadoCorretamente}", (recommendedGame.Proximity.Successors.ElementAt(2).Numbers.Count() - 1).ToString())
+                                .Replace("{terceiroNumeroQueFoiEscolhido}", recommendedGame.Proximity.Successors.ElementAt(2).Numbers.FirstOrDefault())
+                                .Replace("{posicaoDoTerceiroNumeroQueDeveriaSerEscolhido}", (recommendedGame.Proximity.Successors.ElementAt(2).Numbers.Count() - 1).ToString())
+                                .Replace("{terceiroNumeroCorreto}", recommendedGame.Proximity.Successors.ElementAt(2).Numbers.LastOrDefault())
+
+                                .Replace("{posicaoQuartoNumeroSorteadoCorretamente}", (recommendedGame.Proximity.Successors.ElementAt(3).Numbers.Count() - 1).ToString())
+                                .Replace("{quartoNumeroQueFoiEscolhido}", recommendedGame.Proximity.Successors.ElementAt(3).Numbers.FirstOrDefault())
+                                .Replace("{posicaoDoQuartoNumeroQueDeveriaSerEscolhido}", (recommendedGame.Proximity.Successors.ElementAt(3).Numbers.Count() - 1).ToString())
+                                .Replace("{quartoNumeroCorreto}", recommendedGame.Proximity.Successors.ElementAt(3).Numbers.LastOrDefault())
+
+                                .Replace("{posicaoQuintoNumeroSorteadoCorretamente}", (recommendedGame.Proximity.Successors.ElementAt(4).Numbers.Count() - 1).ToString())
+                                .Replace("{quintoNumeroQueFoiEscolhido}", recommendedGame.Proximity.Successors.ElementAt(4).Numbers.FirstOrDefault())
+                                .Replace("{posicaoDoQuintoNumeroQueDeveriaSerEscolhido}", (recommendedGame.Proximity.Successors.ElementAt(4).Numbers.Count() - 1).ToString())
+                                .Replace("{quintoNumeroCorreto}", recommendedGame.Proximity.Successors.ElementAt(4).Numbers.LastOrDefault())
+
+                                .Replace("{posicaoSextoNumeroSorteadoCorretamente}", (recommendedGame.Proximity.Successors.ElementAt(5).Numbers.Count() - 1).ToString())
+                                .Replace("{sextoNumeroQueFoiEscolhido}", recommendedGame.Proximity.Successors.ElementAt(5).Numbers.FirstOrDefault())
+                                .Replace("{posicaoDoSextoNumeroQueDeveriaSerEscolhido}", (recommendedGame.Proximity.Successors.ElementAt(5).Numbers.Count() - 1).ToString())
+                                .Replace("{sextoNumeroCorreto}", recommendedGame.Proximity.Successors.ElementAt(5).Numbers.LastOrDefault());
+
+
+
+
+            if (recommendedGame.IsMegaSena)
             {
                 html = html
                         .Replace("{TipoJogo}", "Mega Sena")

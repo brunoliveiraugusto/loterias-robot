@@ -19,14 +19,14 @@ namespace Loterias.Application.Services
 
         public RecommendedGame ProcessRecommendedGame(IEnumerable<Game> games)
         {
-            //TODO: Implementar obtenção de dados do último sorteio, assertividade, etc.
             var listGames = games.ToList();
             var predictions = AddSubsequentNumbersToEachNumberDrawn(listGames);
             var updatedPredictions = GroupLaterNumbersForEachGameNumber(predictions);
             var lastGame = GetLastGame(listGames);
+            var gamePreviousToCurrentGame = GetGamePreviousToCurrentGame(listGames);
+            var proximity = CalculateProximityOfTheLastDrawnGame(updatedPredictions, gamePreviousToCurrentGame.Numbers, lastGame.Numbers);
             var predictionsNumbers = GetLaterNumbersPredictionBasedOnLastGameNumbers(updatedPredictions, lastGame.Numbers);
-            //var lastDraw = GetInfoLastDraw(listGames);
-            return GetRecommendedGame(predictionsNumbers);
+            return GetRecommendedGame(predictionsNumbers, proximity);
 
         }
 
@@ -72,7 +72,7 @@ namespace Loterias.Application.Services
                                 .ToList();
         }
 
-        private List<PossibleGame> GetLaterNumbersPredictionBasedOnLastGameNumbers(List<PossibleGame> games, string[] lastGame)
+        private static ICollection<PossibleGame> GetLaterNumbersPredictionBasedOnLastGameNumbers(ICollection<PossibleGame> games, string[] lastGame)
         {
             return games.Where(x => lastGame.Contains(x.Number))
                         .Select(x => new PossibleGame
@@ -84,10 +84,15 @@ namespace Loterias.Application.Services
                         .ToList();
         }
 
-        private LastGame GetLastGame(List<Game> games)
+        private LastGame GetLastGame(ICollection<Game> games)
         {
             LastGame lastGame = games.LastOrDefault();
             return lastGame;
+        }
+
+        private LastGame GetGamePreviousToCurrentGame(ICollection<Game> games)
+        {
+            return games.ElementAt(games.Count() - 2);
         }
 
         private DateTime GetNextDrawDate()
@@ -114,7 +119,16 @@ namespace Loterias.Application.Services
             };
         }
 
-        private RecommendedGame GetRecommendedGame(List<PossibleGame> possibleGames)
+        private RecommendedGame GetRecommendedGame(ICollection<PossibleGame> possibleGames, Proximity proximity)
+        {
+
+            var recommendedGameNumbers = GetRecommendedNumbersWithoutRepeats(possibleGames);
+            var possibleOrderedGames = possibleGames.OrderBy(pg => int.Parse(pg.Number)).AsEnumerable();
+
+            return RecommendedGame.CreateRecommendedGame(recommendedGameNumbers, possibleOrderedGames, proximity, GetNextDrawDate(), _isMegasena);
+        }
+
+        private static IEnumerable<string> GetRecommendedNumbersWithoutRepeats(ICollection<PossibleGame> possibleGames)
         {
             List<string> recommendedGameNumbers = new();
 
@@ -122,12 +136,12 @@ namespace Loterias.Application.Services
             {
                 var possibleNumber = possibleGame.PossibleNumbers.FirstOrDefault();
 
-                if(!recommendedGameNumbers.Any(rgn => rgn == possibleNumber))
+                if (!recommendedGameNumbers.Any(rgn => rgn == possibleNumber))
                 {
                     recommendedGameNumbers.Add(possibleNumber);
                     continue;
                 }
-                
+
                 recommendedGameNumbers.Add(possibleGame.LaterNumbers
                         .OrderByDescending(x => x.Count())
                             .Where(lns => !recommendedGameNumbers
@@ -137,15 +151,46 @@ namespace Loterias.Application.Services
                                             .FirstOrDefault());
             }
 
-            var orderedNumbers = recommendedGameNumbers.Select(rgn => int.Parse(rgn)).OrderBy(number => number).AsEnumerable();
-            var possibleOrderedGames = possibleGames.OrderBy(pg => int.Parse(pg.Number)).AsEnumerable();
-
-            return RecommendedGame.CreateRecommendedGame(orderedNumbers, GetNextDrawDate(), possibleOrderedGames, _isMegasena);
+            return recommendedGameNumbers.Select(rgn => int.Parse(rgn)).OrderBy(number => number).Select(rgn => rgn.ToString()).AsEnumerable();
         }
 
-        //private LastDraw GetInfoLastDraw(IEnumerable<Game> games)
-        //{
-        //    var lastGameDrawn = games.ElementAt(games.Count() - 2);
-        //}
+        private static Proximity CalculateProximityOfTheLastDrawnGame(ICollection<PossibleGame> games, string[] gamePreviousToCurrentGame, string[] currentDrawnGame)
+        {
+            Proximity proximity = Proximity.New(currentDrawnGame, gamePreviousToCurrentGame, new List<Successor>());
+
+            var gamesRelatedOnlyToTheLastDrawNumbers = games.Where(game => gamePreviousToCurrentGame.Contains(game.Number));
+
+            IEnumerable<string> currentDrawnGameAux = currentDrawnGame;
+
+            var possibleGames = GetLaterNumbersPredictionBasedOnLastGameNumbers(games, gamePreviousToCurrentGame);
+            var recommendedNumbers = GetRecommendedNumbersWithoutRepeats(possibleGames);
+
+            for (var i = 0; i < gamesRelatedOnlyToTheLastDrawNumbers.Count(); i++)
+            {
+                proximity.Successors.Add(
+                    Successor.New(
+                        gamesRelatedOnlyToTheLastDrawNumbers.ElementAt(i).Number, 
+                        "",
+                        recommendedNumbers.ElementAt(i),
+                        new List<string>())
+                );
+
+                var numbersSortedByTheMostDrawn = gamesRelatedOnlyToTheLastDrawNumbers.ElementAt(i).LaterNumbers.OrderByDescending(ln => ln.Count());
+
+                foreach (var laterNumber in numbersSortedByTheMostDrawn)
+                {
+                    proximity.Successors.ElementAt(i).Numbers.Add(laterNumber.FirstOrDefault());
+
+                    if (proximity.Successors.ElementAt(i).Numbers.Any(number => currentDrawnGameAux.Contains(number)))
+                    {
+                        proximity.Successors.ElementAt(i).DrawnNumber = laterNumber.FirstOrDefault();
+                        currentDrawnGameAux = currentDrawnGameAux.Where(cdg => cdg != laterNumber.FirstOrDefault());
+                        break;
+                    }
+                }
+            }
+
+            return proximity;
+        }
     }
 }

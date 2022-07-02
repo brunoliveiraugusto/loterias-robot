@@ -155,6 +155,50 @@
         &lt;h1&gt;Jogo Recomendado:&lt;/h1&gt;
         &lt;p style="font-weight: bolder;"&gt;{PrimeiroRecomendado} - {SegundoRecomendado} - {TerceiroRecomendado} - {QuartoRecomendado} - {QuintoRecomendado} - {SextoRecomendado} - {SetimoRecomendado} -  {OitavoRecomendado} -  {NonoRecomendado} -  {DecimoRecomendado} -  {DecimoPrimeiroRecomendado} -  {DecimoSegundoRecomendado} -  {DecimoTerceiroRecomendado} -  {DecimoQuartoRecomendado} -  {DecimoQuintoRecomendado}&lt;/p&gt;
     &lt;/div&gt;
+    &lt;div style="width: 100%;"&gt;
+        &lt;h1&gt;Qual seria a seleção necessária para que o algoritmo pudesse acertar todos os números do último sorteio?&lt;/h1&gt;
+        &lt;b&gt;Apenas para informação, hoje o algoritmo pega para cada número sorteado, o sucessor que ao longo do tempo mais foi sorteado após ele. 
+          A ideia dessa seção é mostrar qual seria a escolha mais inteligente, deixando de pegar os que mais foram sorteados para escolher exatamente o 
+          número que no sorteio posterior fosse o sorteado.
+        &lt;/b&gt;
+        &lt;br&gt;
+        &lt;h2&gt;Números do último sorteio: {PrimeiroNumeroUltimoSorteio}, {SegundoNumeroUltimoSorteio}, {TerceiroNumeroUltimoSorteio}, {QuartoNumeroUltimoSorteio}, {QuintoNumeroUltimoSorteio}, {SextoNumeroUltimoSorteio}&lt;/h2&gt;
+        &lt;br&gt;
+        &lt;h2&gt;Números que foram recomendados pelo algoritmo: {PrimeiroNumeroQueFoiRecomendadoPeloAlgoritmo}, {SegundoNumeroQueFoiRecomendadoPeloAlgoritmo}, {TerceiroNumeroQueFoiRecomendadoPeloAlgoritmo}, {QuartoNumeroQueFoiRecomendadoPeloAlgoritmo}, {QuintoNumeroQueFoiRecomendadoPeloAlgoritmo}, {SextoNumeroQueFoiRecomendadoPeloAlgoritmo}&lt;/h2&gt;
+        &lt;br&gt;
+
+        &lt;h1&gt;Qual deveria ter sido a escolha mais inteligente:&lt;/h1&gt;
+        &lt;br&gt;
+        &lt;p&gt;Para o primeiro número sucessor dentre os mais sorteados, o algoritmo deveria ter escolhido na lista ordenada pelos que mais foram sorteados a posição {posicaoPrimeiroNumeroSorteadoCorretamente}, onde se encontrava o número que posteriormente foi sorteado, veja:&lt;/p&gt;
+        &lt;p style="color: red;"&gt;Número escolhido, que está localizado na primeira posição da lista, é o que mais sucedeu: {primeiroNumeroQueFoiEscolhido}&lt;/p&gt;
+        &lt;p style="color: green;"&gt;Número que deveria ser o escolhido, está na posição {posicaoDoPrimeiroNumeroQueDeveriaSerEscolhido} da lista: {primeiroNumeroCorreto}&lt;/p&gt;
+        &lt;hr&gt;
+
+        &lt;p&gt;Para o segundo número sucessor dentre os mais sorteados, o algoritmo deveria ter escolhido na lista ordenada pelos que mais foram sorteados a posição {posicaoSegundoNumeroSorteadoCorretamente}, onde se encontrava o número que posteriormente foi sorteado, veja:&lt;/p&gt;
+        &lt;p style="color: red;"&gt;Número escolhido, que está localizado na primeira posição da lista, é o que mais sucedeu: {segundoNumeroQueFoiEscolhido}&lt;/p&gt;
+        &lt;p style="color: green;"&gt;Número que deveria ser o escolhido, está na posição {posicaoDoSegundoNumeroQueDeveriaSerEscolhido} da lista: {segundoNumeroCorreto}&lt;/p&gt;
+        &lt;hr&gt;
+
+        &lt;p&gt;Para o terceiro número sucessor dentre os mais sorteados, o algoritmo deveria ter escolhido na lista ordenada pelos que mais foram sorteados a posição {posicaoTerceiroNumeroSorteadoCorretamente}, onde se encontrava o número que posteriormente foi sorteado, veja:&lt;/p&gt;
+        &lt;p style="color: red;"&gt;Número escolhido, que está localizado na primeira posição da lista, é o que mais sucedeu: {terceiroNumeroQueFoiEscolhido}&lt;/p&gt;
+        &lt;p style="color: green;"&gt;Número que deveria ser o escolhido, está na posição {posicaoDoTerceiroNumeroQueDeveriaSerEscolhido} da lista: {terceiroNumeroCorreto}&lt;/p&gt;
+        &lt;hr&gt;
+
+        &lt;p&gt;Para o quarto número sucessor dentre os mais sorteados, o algoritmo deveria ter escolhido na lista ordenada pelos que mais foram sorteados a posição {posicaoQuartoNumeroSorteadoCorretamente}, onde se encontrava o número que posteriormente foi sorteado, veja:&lt;/p&gt;
+        &lt;p style="color: red;"&gt;Número escolhido, que está localizado na primeira posição da lista, é o que mais sucedeu: {quartoNumeroQueFoiEscolhido}&lt;/p&gt;
+        &lt;p style="color: green;"&gt;Número que deveria ser o escolhido, está na posição {posicaoDoQuartoNumeroQueDeveriaSerEscolhido} da lista: {quartoNumeroCorreto}&lt;/p&gt;
+        &lt;hr&gt;
+
+        &lt;p&gt;Para o quinto número sucessor dentre os mais sorteados, o algoritmo deveria ter escolhido na lista ordenada pelos que mais foram sorteados a posição {posicaoQuintoNumeroSorteadoCorretamente}, onde se encontrava o número que posteriormente foi sorteado, veja:&lt;/p&gt;
+        &lt;p style="color: red;"&gt;Número escolhido, que está localizado na primeira posição da lista, é o que mais sucedeu: {quintoNumeroQueFoiEscolhido}&lt;/p&gt;
+        &lt;p style="color: green;"&gt;Número que deveria ser o escolhido, está na posição {posicaoDoQuintoNumeroQueDeveriaSerEscolhido} da lista: {quintoNumeroCorreto}&lt;/p&gt;
+        &lt;hr&gt;
+
+        &lt;p&gt;Para o sexto número sucessor dentre os mais sorteados, o algoritmo deveria ter escolhido na lista ordenada pelos que mais foram sorteados a posição {posicaoSextoNumeroSorteadoCorretamente}, onde se encontrava o número que posteriormente foi sorteado, veja:&lt;/p&gt;
+        &lt;p style="color: red;"&gt;Número escolhido, que está localizado na primeira posição da lista, é o que mais sucedeu: {sextoNumeroQueFoiEscolhido}&lt;/p&gt;
+        &lt;p style="color: green;"&gt;Número que deveria ser o escolhido, está na posição {posicaoDoSextoNumeroQueDeveriaSerEscolhido} da lista: {sextoNumeroCorreto}&lt;/p&gt;
+        &lt;hr&gt;
+    &lt;/div&gt;
     &lt;!-- &lt;div style="width: 100%;"&gt;
         &lt;h1&gt;Última Previsão:&lt;/h1&gt;
         &lt;h2&gt;Números previstos:&lt;/h2&gt;

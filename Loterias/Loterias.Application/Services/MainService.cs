@@ -27,7 +27,7 @@ namespace Loterias.Application.Services
             try
             {
                 await _csvService.Update(await _scrapingService.Read());
-                var games = await _csvService.Read();
+                var games = await _csvService.Read();                
                 var recommendedGame = _gameService.ProcessRecommendedGame(games);
                 Email email = _messageService.GetMessage(recommendedGame);
                 _messageProducerService.SendMessage(email);
