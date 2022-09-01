@@ -160,7 +160,7 @@ namespace Loterias.Application.Services
 
             var gamesRelatedOnlyToTheLastDrawNumbers = games.Where(game => gamePreviousToCurrentGame.Contains(game.Number));
 
-            IEnumerable<string> currentDrawnGameAux = currentDrawnGame;
+            IEnumerable<string> gamePreviousToCurrentGameAux = gamePreviousToCurrentGame;
 
             var possibleGames = GetLaterNumbersPredictionBasedOnLastGameNumbers(games, gamePreviousToCurrentGame);
             var recommendedNumbers = GetRecommendedNumbersWithoutRepeats(possibleGames);
@@ -181,10 +181,10 @@ namespace Loterias.Application.Services
                 {
                     proximity.Successors.ElementAt(i).Numbers.Add(laterNumber.FirstOrDefault());
 
-                    if (proximity.Successors.ElementAt(i).Numbers.Any(number => currentDrawnGameAux.Contains(number)))
+                    if (proximity.Successors.ElementAt(i).Numbers.Any(number => gamePreviousToCurrentGameAux.Contains(number)))
                     {
                         proximity.Successors.ElementAt(i).DrawnNumber = laterNumber.FirstOrDefault();
-                        currentDrawnGameAux = currentDrawnGameAux.Where(cdg => cdg != laterNumber.FirstOrDefault());
+                        gamePreviousToCurrentGameAux = gamePreviousToCurrentGameAux.Where(cdg => cdg != laterNumber.FirstOrDefault());
                         break;
                     }
                 }
